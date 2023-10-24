@@ -79,7 +79,7 @@ localStorage.setItem("wrong", localStorage.getItem("wrong") || 0);
 
 let word =
     easyEnglishWords[Math.floor(Math.random() * easyEnglishWords.length)],
-  guessedLetters = [],
+  guessedLetters = [" "],
   fails = 0,
   guessedRight = false,
   hiddenWordArray = "-".repeat(word.length).split(""),
