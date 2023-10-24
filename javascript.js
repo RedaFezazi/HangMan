@@ -193,6 +193,10 @@ const easyEnglishWords = [
   "zeppelin",
 ];
 
+// Saving the score
+localStorage.setItem("right", localStorage.getItem("right") || 0);
+localStorage.setItem("wrong", localStorage.getItem("wrong") || 0);
+
 let word =
     easyEnglishWords[Math.floor(Math.random() * easyEnglishWords.length)],
   guessedLetters = [],
@@ -204,6 +208,17 @@ let word =
   img = document.getElementById("fails"),
   label = document.getElementById("label"),
   btn = document.getElementById("btn"),
+  score = document.getElementById("score"),
+  rightScore = 0,
+  wrongScore = 0,
+  resetScore = () => {
+    localStorage.right = 0;
+    localStorage.wrong = 0;
+    updateScore();
+  },
+  updateScore = () => {
+    score.innerText = `Wins: ${localStorage.right} |  Losses: ${localStorage.wrong}`;
+  },
   endDisplay = (h1text, src) => {
     h1.innerText = h1text;
     input.remove();
@@ -214,6 +229,7 @@ let word =
     }
   };
 
+updateScore();
 h1.innerText = hiddenWordArray.join("");
 
 input.addEventListener("keydown", (e) => {
@@ -245,12 +261,16 @@ input.addEventListener("keydown", (e) => {
       guessedRight = false;
       // If the the player has guessed the word then it ends the game.
       if (hiddenWordArray.join("") == word) {
+        localStorage.right++;
+        updateScore();
         endDisplay(`You Won!`, `./assets/8.jpg`);
         return;
       }
     }
 
     if (fails == 7) {
+      localStorage.wrong++;
+      updateScore();
       // If the the player has guesse wrong 7 times then the game end.
       endDisplay(`The Correct Answer Was: ${word}`);
       return;
